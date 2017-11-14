@@ -1,0 +1,61 @@
+html, body {
+  height: 100%;
+}
+
+header {
+  background: #727272;
+  font-family: 'Martel', serif;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
+
+.h {
+  font-family: Avenir, serif;
+  color: #FF8B31;
+}
+
+.p {
+  font-family: 'Helvetica', sans-serif;
+  color: grey;
+}
+
+#imain {
+  position: relative;
+  float: left;
+  width: 75%;
+}
+
+aside {
+  width: 24%;
+  border: solid;
+  border-color: #FF8b31;
+  float: right;
+}
+
+footer {
+  text-align: center;
+  margin-top: 70%;
+  border: solid;
+  border-color: #FF8B31;
+  height: 300px;
+}
+
+#main {
+  font-family: 'courier', monospace;
+  color: #002A2A
+}
+
+.leftImg {
+  float: left;
+  height: 150px;
+}
+
+.rightImg {
+  float: right;
+  height: 150px;
+}
+
+footer li {
+  list-style: none;
+}
