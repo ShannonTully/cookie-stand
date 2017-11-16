@@ -1,6 +1,8 @@
 'use strict';
 
 var stores = [];
+var k = 5;
+var dayTotal = 0;
 
 function Store(storeLoc, minCust, maxCust, avgCookieBought) {
   this.storeLoc = storeLoc;
@@ -10,35 +12,28 @@ function Store(storeLoc, minCust, maxCust, avgCookieBought) {
   stores.push(this);
 }
 
-Store.prototype.test = function() {
-  console.log('\'stores\' array', stores);
-};
-
 new Store('1st and Pike', 23, 65, 6.3);
 new Store('SeaTac', 3, 24, 1.2);
 new Store('Seattle Center', 11, 38, 3.7);
 new Store('Capitol Hill', 20, 38, 2.3);
 new Store('Alki', 2, 16, 4.6);
 
-stores[0].test();
+function getRandom(min, max) {
+  return Math.round(Math.random() * (max - min)) + min;
+}
 
-Store.prototype.getRandom = function() {
-  return Math.round(Math.random() * (this.maxCust - this.minCust)) + this.minCust;
-};
-
-Store.prototype.calculateCookies = function() {
+function calculateCookies(j) {
   var cookies = [];
   for(var i = 0; i <= 14; i++) {
-    cookies[i] = Math.round(this.getRandom() * this.avgCookieBought);
+    cookies[i] = Math.round(getRandom(stores[j].minCust, stores[j].maxCust) * stores[j].avgCookieBought);
+    dayTotal += cookies[i];
+    console.log(stores[j].minCust, stores[j].maxCust, stores[j].avgCookieBought);
   }
+  console.log(cookies);
   return cookies;
-};
-
+}
+/*
 function tableHours() {
-  var tblEl = document.getElementById('tbl');
-  var tbodyEl = document.createElement('tbody');
-  tbodyEl.id = 'tbod';
-  tblEl.appendChild(tbodyEl);
   var trEl = document.createElement('tr');
   tbodyEl.appendChild(trEl);
   var tdEl = document.createElement('td');
@@ -53,12 +48,66 @@ function tableHours() {
   tdEl = document.createElement('td');
   tdEl.textContent = 'Total';
   trEl.appendChild(tdEl);
+}*/
+
+function createRow(first, main, last) {
+  var trEl = document.createElement('tr');
+  var tdEl = document.createElement('td');
+  tdEl.textContent = first;
+  trEl.appendChild(tdEl);
+  for(var j = 0; j < main.length; j++) {
+    tdEl = document.createElement('td');
+    tdEl.textContent = main[j];
+    trEl.appendChild(tdEl);
+  }
+  tdEl = document.createElement('td');
+  tdEl.textContent = last;
+  trEl.appendChild(tdEl);
+  return trEl;
+}
+
+function createTable() {
+  var tblEl = document.getElementById('tbl');
+  tblEl.appendChild(createHead());
+  tblEl.appendChild(createBody());
 }
 
 function createHead() {
-
+  var theadEl = document.createElement('thead');
+  var row = createRow('', createTime(), 'Total');
+  theadEl.appendChild(row);
+  return theadEl;
 }
 
+function createTime() {
+  var array = [];
+  for(var i = 0; i <= 14; i++) {
+    array[i] = (i + 6) * 100;
+  }
+  return array;
+}
+
+function createBody() {
+  var tbodyEl = document.createElement('tbody');
+  tbodyEl.id = 'tbod';
+  for(var i = 0; i < stores.length; i++) {
+    var row = createRow(stores[i].storeLoc, calculateCookies(i), dayTotal);
+    dayTotal = 0;
+    tbodyEl.appendChild(row);
+  }
+  return tbodyEl;
+}
+
+function addRow(j) {
+  var tbodyEl = document.getElementById('tbod');
+  var row = createRow(stores[j].storeLoc, calculateCookies(j), dayTotal);
+  dayTotal = 0;
+  tbodyEl.appendChild(row);
+}
+
+createTable();
+
+/*
 Store.prototype.tableObjects = function() {
   var tbodyEl = document.getElementById('tbod');
   var trEl = document.createElement('tr');
@@ -72,26 +121,14 @@ Store.prototype.tableObjects = function() {
     tdEl = document.createElement('td');
     var cookies = this.calculateCookies()[i];
     dayTotal += cookies;
-    //console.log(cookies);
     tdEl.textContent = cookies;
     trEl.appendChild(tdEl);
   }
   tdEl = document.createElement('td');
   tdEl.textContent = dayTotal;
   trEl.appendChild(tdEl);
-};
+};*/
 
-/*for(var i = 0; i < stores.length; i++){
-  stores[i].calculateCookies();
-}*/
-
-tableHours();
-
-var k = 0;
-
-for(k = 0; k < stores.length; k++) {
-  stores[k].tableObjects();
-}
 
 var formEl = document.getElementById('frm');
 
@@ -106,7 +143,7 @@ function onSubmit(event) {
   console.log(formData.storeName, formData.minCust, formData.maxCust, formData.avgCookieBought);
   new Store(formData.storeName, formData.minCust, formData.maxCust, formData.avgCookieBought);
 
-  stores[k].tableObjects();
+  addRow(k);
   k++;
 }
 
