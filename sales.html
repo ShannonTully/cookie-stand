@@ -10,9 +10,9 @@
       <table id = 'tbl'></table>
       <form id = "frm">
         <input name = "storeName" type = "text" placeholder="New location name">
-        <input name = "minCust" type = "number" placeholder="Min customers/hour">
-        <input name = "maxCust" type = "number" placeholder="Max customers/hour">
-        <input name = "avgCookieBought" type = "text" placeholder="Avg cookies/purchase">
+        <input name = "minCust" type = "number" min="0" placeholder="Min customers/hour">
+        <input name = "maxCust" type = "number" min ="0" placeholder="Max customers/hour">
+        <input name = "avgCookieBought" type = "number" min="0" step="0.01" placeholder="Avg cookies/purchase">
         <button type = "submit">SUBMIT</button>
       </form>
     </main>
