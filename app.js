@@ -3,12 +3,14 @@
 var stores = [];
 var k = 5;
 var dayTotal = 0;
+var arrTotals = [];
 
 function Store(storeLoc, minCust, maxCust, avgCookieBought) {
   this.storeLoc = storeLoc;
   this.minCust = minCust;
   this.maxCust = maxCust;
   this.avgCookieBought = avgCookieBought;
+  this.hourCookies = [];
   stores.push(this);
 }
 
@@ -27,7 +29,10 @@ function calculateCookies(j) {
   for(var i = 0; i <= 14; i++) {
     cookies[i] = Math.round(getRandom(stores[j].minCust, stores[j].maxCust) * stores[j].avgCookieBought);
     dayTotal += cookies[i];
-    console.log(stores[j].minCust, stores[j].maxCust, stores[j].avgCookieBought);
+    arrTotals[j] = dayTotal;
+    console.log('e', stores[j].minCust, stores[j].maxCust, stores[j].avgCookieBought, cookies[i], 'arrTotals', arrTotals);
+    stores[j].hourCookies[i] = cookies[i];
+    console.log(stores[j].hourCookies[i]);
   }
   console.log(cookies);
   return cookies;
@@ -53,6 +58,7 @@ function createTable() {
   var tblEl = document.getElementById('tbl');
   tblEl.appendChild(createHead());
   tblEl.appendChild(createBody());
+  tblEl.appendChild(createFoot());
 }
 
 function createHead() {
@@ -60,6 +66,40 @@ function createHead() {
   var row = createRow('', createTime(), 'Total');
   theadEl.appendChild(row);
   return theadEl;
+}
+
+function createFoot() {
+  var i = 0;
+  var tfootEl = document.createElement('tfoot');
+  tfootEl.id = 'tfoo';
+  var row = createRow('Total', getHourTotals(i), arraySum(arrTotals));
+  i++;
+  tfootEl.appendChild(row);
+  return tfootEl;
+}
+
+function getHourTotals(j) {
+  var totals = [];
+  var hour = [];
+  console.log('hour', hour);
+  for(var i = 0; i <= 14; i++) {
+    for(var l = 0; l < stores.length; l++) {
+      hour[l] = stores[l].hourCookies[i];
+      console.log('hour', hour, 'stores[j].hourCookies[i]', stores[j].hourCookies[i]);
+    }
+    totals[i] = arraySum(hour);
+    console.log('totals', totals);
+    //totals.push(add);
+  }
+  return totals;
+}
+
+function arraySum(array){
+  var total = 0;
+  for (var i = 0; i < array.length; i++){
+    total += array[i];
+  }
+  return total;
 }
 
 function createTime() {
@@ -103,8 +143,14 @@ function onSubmit(event) {
   console.log(formData.storeName, formData.minCust, formData.maxCust, formData.avgCookieBought);
   new Store(formData.storeName, formData.minCust, formData.maxCust, formData.avgCookieBought);
 
+  var tblEl = document.getElementById('tbl');
+  var tfootEl = document.getElementById('tfoo');
+  tblEl.removeChild(tfootEl);
+
   addRow(k);
   k++;
+
+  tblEl.appendChild(createFoot());
 }
 
 formEl.addEventListener('submit', onSubmit);

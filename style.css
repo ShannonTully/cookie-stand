@@ -1,5 +1,9 @@
-html, body {
-  height: 100%;
+* {
+  box-sizing: border-box;
+}
+
+#sbody {
+  background-image: url(assets/chinook.jpg);
 }
 
 header {
@@ -8,6 +12,10 @@ header {
   font-weight: bold;
   color: white;
   text-align: center;
+}
+
+header img {
+  width: 60%;
 }
 
 .h {
@@ -35,25 +43,34 @@ aside {
 
 footer {
   text-align: center;
-  margin-top: 70%;
+  height: 300px;
+  bottom: 0px;
+  margin-top: 90%
+}
+
+footer div {
   border: solid;
   border-color: #FF8B31;
-  height: 300px;
 }
 
 #main {
+  text-align: -webkit-center;
   font-family: 'courier', monospace;
   color: #002A2A
 }
 
 .leftImg {
-  float: left;
-  height: 150px;
+  position: relative;
+  display: inline;
+  float: right;
+  height: 275px;
 }
 
 .rightImg {
-  float: right;
-  height: 150px;
+  position: relative;
+  display: inline;
+  float: left;
+  height: 275px;
 }
 
 footer li {
@@ -61,10 +78,31 @@ footer li {
 }
 
 td {
+  color: white;
+  background: #727272;
   border: solid;
-  border-color: black;
+  border-color: #FF8B31;
 }
 
 input {
   display: block;
+}
+
+form {
+  padding: 10px;
+  background: #727272;
+  border: solid;
+  border-color: #FF8B31;
+  width: 190px;
+}
+
+.cut {
+  height: 300px;
+}
+
+#back {
+  position: fixed;
+  z-index: -1;
+  opacity: 0.4;
+  width: 200%;
 }
